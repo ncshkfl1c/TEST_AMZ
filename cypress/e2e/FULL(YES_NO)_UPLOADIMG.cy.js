@@ -6,6 +6,7 @@ import QUESTION_CDV from "../QUESTION/CDV_ QUESTION(NULL)";
 const session_key = "TVC-8XUL7YLQKO";
 const Vehicle_Type = "CV";
 const TestCase = "FULL_YES_NA"; //(FULL_YES || FULL_YES_NA || FULL_NO)
+const AddImg = false
 
 // ------------------DONT MODIFIED BELOW-------------------------
 
@@ -71,6 +72,7 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
     for (let Title in QUESTION) {
       console.log(QUESTION[Title]);
       for (let Option in QUESTION[Title]) {
+
         cy.get(`#${Title}_${Option}`).then((Qusestion) => {
           console.log(Qusestion.children());
 
@@ -97,7 +99,7 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
     ); //BOX IMG
 
     //UPLOAD FULL HÌNH
-    cy.get("@UPLOADIMG").each(($UPlOAD_BTN) => {
+    AddImg && cy.get("@UPLOADIMG").each(($UPlOAD_BTN) => {
       cy.wrap($UPlOAD_BTN).selectFile("cypress/fixtures/test-img.jpg", {
         force: true,
       });
