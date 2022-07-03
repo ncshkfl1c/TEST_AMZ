@@ -38,10 +38,10 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
       .should("have.css", "background-color", "rgb(39, 208, 137)");
   });
 
-  it(`Submit Before choose Option`, () => {
+  it(`Submit Before choose Option - Validate Question CSS`, () => {
     cy.get(".ant-form-item-control-input-content > .ant-btn")
       .as("SUBMIT_BUTTON")
-      .click(); // click Submit
+      .click(); // click Submit to show validate and noti
     cy.wait(1000);
     cy.get(".ant-notification-notice").should("be.visible"); //CHECK NOTIFICATION
     cy.log(
