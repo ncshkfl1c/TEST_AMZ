@@ -6,12 +6,17 @@ import QUESTION_CDV from "../QUESTION/CDV_ QUESTION(NULL)";
 const session_key = "TVC-8XUL7YLQKO";
 const Vehicle_Type = "CV";
 const TestCase = "FULL_YES_NA"; //(FULL_YES || FULL_YES_NA || FULL_NO)
-const AddImg = false
+const AddImg = false;
 
 // ------------------DONT MODIFIED BELOW-------------------------
 
 const nthChild = TestCase == "FUll_YES" ? 1 : TestCase == "FULL_NO" ? 2 : 3;
-var QUESTION = Vehicle_Type == "CV" ? QUESTION_CV : Vehicle_Type == "CDV" ? QUESTION_CDV : QUESTION_SV;
+var QUESTION =
+  Vehicle_Type == "CV"
+    ? QUESTION_CV
+    : Vehicle_Type == "CDV"
+    ? QUESTION_CDV
+    : QUESTION_SV;
 
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
   beforeEach(() => {
@@ -39,40 +44,11 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
       .should("have.css", "background-color", "rgb(39, 208, 137)");
   });
 
-  it.skip(`Submit Before choose Option`, () => {
-    cy.get(".ant-form-item-control-input-content > .ant-btn")
-      .as("SUBMIT_BUTTON")
-      .click(); // click Submit
-    cy.wait(1000);
-    cy.get(".ant-notification-notice").should("be.visible"); //CHECK NOTIFICATION
-    cy.log(
-      `${
-        Vehicle_Type == "CV"
-          ? "QUESTION_CV"
-          : Vehicle_Type == "CDV"
-          ? "QUESTION_CDV"
-          : "QUESTION_SV"
-      }`
-    ); //SHOW QUESTION
-
-    for (let Title in QUESTION) {
-      console.log(QUESTION[Title]);
-      for (let Option in QUESTION[Title]) {
-        cy.get(`#${Title}_${Option} > label`).should(
-          "have.css",
-          "border-color",
-          "rgb(255, 77, 79)"
-        );
-      }
-    }
-  }); // ONLY UNCHECK SKIP WHEN FIRT TIME LOG FORM
-
   it(`choose Option ${TestCase}`, () => {
     //CHOOSE FULL
     for (let Title in QUESTION) {
       console.log(QUESTION[Title]);
       for (let Option in QUESTION[Title]) {
-
         cy.get(`#${Title}_${Option}`).then((Qusestion) => {
           console.log(Qusestion.children());
 
@@ -96,13 +72,20 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
 
     cy.get(".ant-upload-select > .ant-upload > input[type=file]").as(
       "UPLOADIMG"
-    ); //BOX IMG
+    ); //BOX UPLOAD IMG
 
     //UPLOAD FULL HÌNH
-    AddImg && cy.get("@UPLOADIMG").each(($UPlOAD_BTN) => {
-      cy.wrap($UPlOAD_BTN).selectFile("cypress/fixtures/test-img.jpg", {
-        force: true,
+    AddImg &&
+      cy.get("@UPLOADIMG").each(($UPlOAD_BTN) => {
+        cy.wrap($UPlOAD_BTN).selectFile("cypress/fixtures/test-img.jpg", {
+          force: true,
+        });
       });
-    });
+  });
+
+  it.skip(`Submit Form`, () => {
+    cy.get(".ant-form-item-control-input-content > .ant-btn")
+      .as("SUBMIT_BUTTON")
+      .click(); // click Submit 
   });
 });
