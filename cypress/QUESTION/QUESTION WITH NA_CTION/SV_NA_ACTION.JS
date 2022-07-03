@@ -1,4 +1,4 @@
-const NA_ACTION_CDV = {
+const NA_ACTION_SV = {
   OVERALL_CONDITION: { IS_THE_INTERIOR_FREE_OF_STRONG_ODORS: null },
   DIVIDER_DOOR: { IS_THE_DIVIDER_DOOR_OPERATIONAL: null },
   LIGHTS: {
@@ -36,4 +36,4 @@ const NA_ACTION_CDV = {
   },
 };
 
-export default NA_ACTION_CDV;
+export default NA_ACTION_SV;
