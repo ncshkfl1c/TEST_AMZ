@@ -5,12 +5,17 @@ import QUESTION_CDV from "../QUESTION/CDV_ QUESTION(NULL)";
 //INPUT HERE
 const session_key = "TVC-8XUL7YLQKO";
 const Vehicle_Type = "CV";
-const TestCase = "Validate"
+const TestCase = "Validate";
 
 // ------------------DONT MODIFIED BELOW-------------------------
 
 const nthChild = TestCase == "FUll_YES" ? 1 : TestCase == "FULL_NO" ? 2 : 3;
-var QUESTION = Vehicle_Type == "CV" ? QUESTION_CV : Vehicle_Type == "CDV" ? QUESTION_CDV : QUESTION_SV;
+var QUESTION =
+  Vehicle_Type == "CV"
+    ? QUESTION_CV
+    : Vehicle_Type == "CDV"
+    ? QUESTION_CDV
+    : QUESTION_SV;
 
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
   beforeEach(() => {
@@ -39,10 +44,11 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
   });
 
   it(`Submit Before choose Option - Validate Question CSS`, () => {
+    
     cy.get(".ant-form-item-control-input-content > .ant-btn")
       .as("SUBMIT_BUTTON")
       .click(); // click Submit to show validate and noti
-    cy.wait(1000);
+    
     cy.get(".ant-notification-notice").should("be.visible"); //CHECK NOTIFICATION
     cy.log(
       `${
@@ -64,6 +70,5 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
         );
       }
     }
-  }); // ONLY UNCHECK SKIP WHEN FIRT TIME LOG FORM
-
+  }); //CHECK VALIDATION
 });
