@@ -6,7 +6,7 @@ import QUESTION_CDV from "../QUESTION/CDV_ QUESTION(NULL)";
 const session_key = "TVC-8XUL7YLQKO";
 const Vehicle_Type = "CV";
 const TestCase = "FULL_YES_NA"; //(FULL_YES || FULL_YES_NA || FULL_NO)
-const AddImg = false;
+const AddImg = false; // True: upload all img, false: not upload
 
 // ------------------DONT MODIFIED BELOW-------------------------
 
@@ -44,7 +44,7 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
       .should("have.css", "background-color", "rgb(39, 208, 137)");
   });
 
-  it(`choose Option ${TestCase}`, () => {
+  it(`choose Option ${TestCase} + UPLOAD_IMG: ${AddImg}`, () => {
     //CHOOSE FULL
     for (let Title in QUESTION) {
       console.log(QUESTION[Title]);
