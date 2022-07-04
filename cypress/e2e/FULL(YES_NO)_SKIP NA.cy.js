@@ -49,8 +49,9 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
       .should("have.css", "background-color", "rgb(39, 208, 137)");
   });
 
+  //CHOOSE OPTION
   it(`choose Option ${TestCase} + UPLOAD_IMG: ${AddImg}`, () => {
-    //CHOOSE FULL
+    
     for (let Title in QUESTION) {
       console.log(QUESTION[Title]);
       for (let Option in QUESTION[Title]) {

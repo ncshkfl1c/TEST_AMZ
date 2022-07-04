@@ -34,9 +34,11 @@ var R_QUESTION =
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
   beforeEach(() => {
     cy.clearCookies();
-    cy.visit(`https://capture${Env == "PROD" ? "": "-dev"}.paveapi.com/${session_key}/result/forms`).as(
-      "Link_Form"
-    );
+    cy.visit(
+      `https://capture${
+        Env == "PROD" ? "" : "-dev"
+      }.paveapi.com/${session_key}/result/forms`
+    ).as("Link_Form");
   });
 
   afterEach(() => {
@@ -62,7 +64,9 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
       .as("SUBMIT_BUTTON")
       .click(); // click Submit to show validate and noti
 
-    cy.get(".ant-notification-notice").should("be.visible").as("HAVE_NOTIFICATION"); //CHECK NOTIFICATION
+    cy.get(".ant-notification-notice")
+      .should("be.visible")
+      .as("HAVE_NOTIFICATION"); //CHECK NOTIFICATION
     cy.log(
       `${
         Vehicle_Type == "CV"

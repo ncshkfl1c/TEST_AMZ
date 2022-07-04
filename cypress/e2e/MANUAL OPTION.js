@@ -1,6 +1,8 @@
-import QUESTION_CV from "../QUESTION/CV_QUESTION(NULL)";
-import QUESTION_SV from "../QUESTION/SV_QUESTION(NULL)";
-import QUESTION_CDV from "../QUESTION/CDV_ QUESTION(NULL)";
+import {
+  QUESTION_CV,
+  QUESTION_CDV,
+  QUESTION_SV,
+} from "../QUESTION/QUESTION_NULL/QUESTION(NULL).js";
 
 //INPUT HERE
 const session_key = "TVC-8XUL7YLQKO";
@@ -86,6 +88,6 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
   it.skip(`Submit Form`, () => {
     cy.get(".ant-form-item-control-input-content > .ant-btn")
       .as("SUBMIT_BUTTON")
-      .click(); // click Submit 
+      .click(); // click Submit
   });
 });
