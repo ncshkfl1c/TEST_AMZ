@@ -2,6 +2,7 @@
   "devDependencies": {
     "cypress": "^10.3.0",
     "cypress-file-upload": "^5.0.8",
-    "dd-trace": "^2.10.0"
+    "dd-trace": "^2.10.0",
+    "soft-assert": "^0.2.6"
   }
 }

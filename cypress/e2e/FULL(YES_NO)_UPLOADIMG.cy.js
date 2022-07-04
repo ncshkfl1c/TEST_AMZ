@@ -1,17 +1,20 @@
-import QUESTION_CV from "../QUESTION/CV_QUESTION(NULL)";
-import QUESTION_SV from "../QUESTION/SV_QUESTION(NULL)";
-import QUESTION_CDV from "../QUESTION/CDV_ QUESTION(NULL)";
+import {
+  QUESTION_CV,
+  QUESTION_CDV,
+  QUESTION_SV,
+} from "../QUESTION/QUESTION_NULL/QUESTION(NULL).js";
 
 //INPUT HERE
-const session_key = "TVC-8XUL7YLQKO";
-const Vehicle_Type = "CV";
+const session_key = "TVC-JOFVLMZAWA";
+const Vehicle_Type = "CV"; // CV, SV, CDV
 const TestCase = "FULL_YES_NA"; //(FULL_YES || FULL_YES_NA || FULL_NO)
-const AddImg = false; // True: upload all img, false: not upload
+const AddImg = true; // True: upload all img, false: not upload
+const Env = "PROD"; // (PROD || DEV)
 
 // ------------------DONT MODIFIED BELOW-------------------------
 
 const nthChild = TestCase == "FUll_YES" ? 1 : TestCase == "FULL_NO" ? 2 : 3;
-var QUESTION =
+const QUESTION =
   Vehicle_Type == "CV"
     ? QUESTION_CV
     : Vehicle_Type == "CDV"
@@ -21,9 +24,11 @@ var QUESTION =
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
   beforeEach(() => {
     cy.clearCookies();
-    cy.visit(`https://capture-dev.paveapi.com/${session_key}/result/forms`).as(
-      "Link_Form"
-    );
+    cy.visit(
+      `https://capture${
+        Env == "PROD" ? "" : "-dev"
+      }.paveapi.com/${session_key}/result/forms`
+    ).as("Link_Form");
   });
 
   afterEach(() => {
@@ -62,19 +67,19 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
                 cy.get(`#${Title}_${Option}>:nth-child(1)`).click();
                 break;
               default:
-                cy.get(`@QuestionOPTION`).click();
+                cy.get(`#${Title}_${Option}>:nth-child(${nthChild})`).click();
                 break;
             }
           }
         });
       }
     }
-
-    cy.get(".ant-upload-select > .ant-upload > input[type=file]").as(
-      "UPLOADIMG"
-    ); //BOX UPLOAD IMG
+    
 
     //UPLOAD FULL HÌNH
+    cy.get(".ant-upload-select > .ant-upload > input[type=file]").as(
+      "UPLOADIMG"
+    );
     AddImg &&
       cy.get("@UPLOADIMG").each(($UPlOAD_BTN) => {
         cy.wrap($UPlOAD_BTN).selectFile("cypress/fixtures/test-img.jpg", {
@@ -86,6 +91,6 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
   it.skip(`Submit Form`, () => {
     cy.get(".ant-form-item-control-input-content > .ant-btn")
       .as("SUBMIT_BUTTON")
-      .click(); // click Submit 
+      .click(); // click Submit
   });
 });
