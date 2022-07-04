@@ -1,14 +1,5 @@
-import {
-  CDV_NA_ACTION,
-  CV_NA_ACTION,
-  SV_NA_ACTION,
-} from "../QUESTION/QUESTION WITH NA_CTION/NA_ACTION.js";
-
-import {
-  R_QUESTION_CV,
-  R_QUESTION_CDV,
-  R_QUESTION_SV,
-} from "../QUESTION/QUESTION_REQUIRED/R_QUESTION";
+import {CDV_NA_ACTION, CV_NA_ACTION, SV_NA_ACTION} from "../QUESTION/QUESTION WITH NA_CTION/NA_ACTION.js";
+import {R_QUESTION_CV, R_QUESTION_CDV, R_QUESTION_SV} from "../QUESTION/QUESTION_REQUIRED/R_QUESTION";
 
 //INPUT HERE
 const session_key = "TVC-6421SVAGGF";
@@ -17,7 +8,8 @@ const TestCase = "Validate";
 const Env = "PROD"; // (PROD || DEV)
 
 // ------------------DONT MODIFIED BELOW-------------------------
-var NA_QUESTION =
+describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
+  var NA_QUESTION =
   Vehicle_Type == "CV"
     ? CV_NA_ACTION
     : Vehicle_Type == "CDV"
@@ -31,7 +23,6 @@ var R_QUESTION =
     ? R_QUESTION_CDV
     : R_QUESTION_SV;
 
-describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
   beforeEach(() => {
     cy.clearCookies();
     cy.visit(

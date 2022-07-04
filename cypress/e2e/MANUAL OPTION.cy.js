@@ -1,31 +1,25 @@
-import {
-  QUESTION_CV,
-  QUESTION_CDV,
-  QUESTION_SV,
-} from "../QUESTION/QUESTION_NULL/QUESTION(NULL).js";
+import QUESTION_MANUAL from "../QUESTION/MANUAL CHOOSE OPTION/QUESTION_MANUAL";
 
 //INPUT HERE
-const session_key = "TVC-8XUL7YLQKO";
+const session_key = "TVC-KK42MFTI4J";
 const Vehicle_Type = "CV";
-const TestCase = "FULL_YES_NA"; //(FULL_YES || FULL_YES_NA || FULL_NO)
+const TestCase = "MANUAL_CHECK"; //(MODIFIED IN QUESTION/MANUAL CHOOSE OPTION/QUESTION_MANUAL)
 const AddImg = false;
+const Env = "PROD"; // (PROD || DEV)
 
 // ------------------DONT MODIFIED BELOW-------------------------
 
 const nthChild = TestCase == "FUll_YES" ? 1 : TestCase == "FULL_NO" ? 2 : 3;
-var QUESTION =
-  Vehicle_Type == "CV"
-    ? QUESTION_CV
-    : Vehicle_Type == "CDV"
-    ? QUESTION_CDV
-    : QUESTION_SV;
+var QUESTION = QUESTION_MANUAL;
 
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
   beforeEach(() => {
     cy.clearCookies();
-    cy.visit(`https://capture-dev.paveapi.com/${session_key}/result/forms`).as(
-      "Link_Form"
-    );
+    cy.visit(
+      `https://capture${
+        Env == "PROD" ? "" : "-dev"
+      }.paveapi.com/${session_key}/result/forms`
+    ).as("Link_Form");
   });
 
   afterEach(() => {
@@ -52,29 +46,17 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
       console.log(QUESTION[Title]);
       for (let Option in QUESTION[Title]) {
         cy.get(`#${Title}_${Option}`).then((Qusestion) => {
-          console.log(Qusestion.children());
-
-          if (Qusestion.children().length == 3) {
-            cy.get(`#${Title}_${Option}>:nth-child(${nthChild})`)
-              .as("QuestionOPTION")
-              .click();
-          } else {
-            switch (nthChild) {
-              case 3:
-                cy.get(`#${Title}_${Option}>:nth-child(1)`).click();
-                break;
-              default:
-                cy.get(`@QuestionOPTION`).click();
-                break;
-            }
-          }
+          cy.get(
+            `#${Title}_${Option}>:nth-child(${QUESTION[Title][Option]})`
+          ).click();
         });
       }
     }
 
+    //BOX UPLOAD IMG
     cy.get(".ant-upload-select > .ant-upload > input[type=file]").as(
       "UPLOADIMG"
-    ); //BOX UPLOAD IMG
+    );
 
     //UPLOAD FULL HÌNH
     AddImg &&

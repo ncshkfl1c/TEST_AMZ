@@ -1,8 +1,4 @@
-import {
-  QUESTION_CV,
-  QUESTION_CDV,
-  QUESTION_SV,
-} from "../QUESTION/QUESTION_NULL/QUESTION(NULL).js";
+import {QUESTION_CV, QUESTION_CDV, QUESTION_SV} from "../QUESTION/QUESTION_NULL/QUESTION(NULL).js";
 
 //INPUT HERE
 const session_key = "TVC-JOFVLMZAWA";
@@ -13,15 +9,14 @@ const Env = "PROD"; // (PROD || DEV)
 
 // ------------------DONT MODIFIED BELOW-------------------------
 
-const nthChild = TestCase == "FUll_YES" ? 1 : TestCase == "FULL_NO" ? 2 : 3;
-const QUESTION =
-  Vehicle_Type == "CV"
-    ? QUESTION_CV
-    : Vehicle_Type == "CDV"
-    ? QUESTION_CDV
-    : QUESTION_SV;
-
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
+  const nthChild = TestCase == "FUll_YES" ? 1 : TestCase == "FULL_NO" ? 2 : 3;
+  const QUESTION =
+    Vehicle_Type == "CV"
+      ? QUESTION_CV
+      : Vehicle_Type == "CDV"
+      ? QUESTION_CDV
+      : QUESTION_SV;
   beforeEach(() => {
     cy.clearCookies();
     cy.visit(
@@ -74,7 +69,6 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
         });
       }
     }
-    
 
     //UPLOAD FULL HÌNH
     cy.get(".ant-upload-select > .ant-upload > input[type=file]").as(
