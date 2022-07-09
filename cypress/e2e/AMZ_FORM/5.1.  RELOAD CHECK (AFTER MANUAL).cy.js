@@ -1,15 +1,14 @@
-import QUESTION_MANUAL from "../QUESTION/MANUAL CHOOSE OPTION/QUESTION_MANUAL";
+import QUESTION_MANUAL from "../../QUESTION/MANUAL CHOOSE OPTION/QUESTION_MANUAL";
 
 //INPUT HERE
 const session_key = "TVC-B5NONUMDJW";
 const Vehicle_Type = "CV";
-const TestCase = "REALOAD_CHECK"; //(MODIFIED IN QUESTION/MANUAL CHOOSE OPTION/QUESTION_MANUAL)
+const TestCase = "REALOAD_CHECK";
 const AddImg = false;
 const Env = "PROD"; // (PROD || DEV)
 
 // ------------------DONT MODIFIED BELOW-------------------------
 
-const nthChild = TestCase == "FUll_YES" ? 1 : TestCase == "FULL_NO" ? 2 : 3;
 var QUESTION = QUESTION_MANUAL;
 
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {

@@ -1,10 +1,10 @@
 //MODIFIED HERE
-const session_key = "TVC-JIRPGP8M9G";
-const Env = "DEV"; // (PROD || DEV)
+const session_key = "TVC-PTUWOXPXJS";
+const Env = "PROD"; // (PROD || DEV)
 const Flow_capture = 13;
 
 //================xxxxxDONT MODIFIED BELOWxxxxxxx================================
-describe(`Start + Post IMG`, () => {
+describe(`Start + Post ${Flow_capture} IMG`, () => {
   it("Start Session", () => {
     cy.request({
       method: "POST",

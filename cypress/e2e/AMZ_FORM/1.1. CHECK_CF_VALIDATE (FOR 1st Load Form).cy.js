@@ -1,4 +1,4 @@
-import {CF_R_QUESTION, CR_NA_ACTION} from "../QUESTION/CUSTOM_FORM/CUSTOM_FORM"
+import {CF_R_QUESTION, CR_NA_ACTION} from "../../QUESTION/CUSTOM_FORM/CUSTOM_FORM"
 //INPUT HERE
 const session_key = "TVC-Z6XRMH9JFK";
 const Vehicle_Type = "CV"; // CV, SV, CDV

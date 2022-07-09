@@ -2,13 +2,13 @@ import {
   QUESTION_CV,
   QUESTION_CDV,
   QUESTION_SV,
-} from "../QUESTION/QUESTION_NULL/QUESTION(NULL).js";
+} from "../../QUESTION/QUESTION_NULL/QUESTION(NULL)";
 
 //INPUT HERE
-const session_key = "TVC-2BLNHEXVPZ";
-const Vehicle_Type = "CDV"; // CV, SV, CDV
-const TestCase = "FULL_NO_NA"; //("FULL_YES" || "FULL_YES_NA" || "FULL_NO" || "FULL_NO_NA")
-const AddImg = false; // True: upload all img, false: not upload
+const session_key = "TVC-PTUWOXPXJS";
+const Vehicle_Type = "CV"; // CV, SV, CDV
+const TestCase = "FULL_NO"; //("FULL_YES" || "FULL_YES_NA" || "FULL_NO" || "FULL_NO_NA")
+const AddImg = true; // True: upload all img, false: not upload
 const Env = "PROD"; // (PROD || DEV)
 
 // ------------------DONT MODIFIED BELOW-------------------------
