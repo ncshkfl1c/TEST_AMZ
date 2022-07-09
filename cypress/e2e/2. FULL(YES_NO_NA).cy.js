@@ -1,16 +1,19 @@
-import {QUESTION_CV, QUESTION_CDV, QUESTION_SV} from "../QUESTION/QUESTION_NULL/QUESTION(NULL).js";
+import {
+  QUESTION_CV,
+  QUESTION_CDV,
+  QUESTION_SV,
+} from "../QUESTION/QUESTION_NULL/QUESTION(NULL).js";
 
 //INPUT HERE
-const session_key = "TVC-JOFVLMZAWA";
-const Vehicle_Type = "CV"; // CV, SV, CDV
-const TestCase = "FULL_YES_NA"; //(FULL_YES || FULL_YES_NA || FULL_NO)
-const AddImg = true; // True: upload all img, false: not upload
+const session_key = "TVC-2BLNHEXVPZ";
+const Vehicle_Type = "CDV"; // CV, SV, CDV
+const TestCase = "FULL_NO_NA"; //("FULL_YES" || "FULL_YES_NA" || "FULL_NO" || "FULL_NO_NA")
+const AddImg = false; // True: upload all img, false: not upload
 const Env = "PROD"; // (PROD || DEV)
 
 // ------------------DONT MODIFIED BELOW-------------------------
-
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
-  const nthChild = TestCase == "FUll_YES" ? 1 : TestCase == "FULL_NO" ? 2 : 3;
+  const nthChild = TestCase == "FULL_YES" ? 1 : TestCase == "FULL_NO" ? 2 : 3;
   const QUESTION =
     Vehicle_Type == "CV"
       ? QUESTION_CV
@@ -59,7 +62,11 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
           } else {
             switch (nthChild) {
               case 3:
-                cy.get(`#${Title}_${Option}>:nth-child(1)`).click();
+                cy.get(
+                  `#${Title}_${Option}>:nth-child(${
+                    TestCase == "FULL_YES_NA" ? 1 : 2
+                  })`
+                ).click();
                 break;
               default:
                 cy.get(`#${Title}_${Option}>:nth-child(${nthChild})`).click();

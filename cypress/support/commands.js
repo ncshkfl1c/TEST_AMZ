@@ -24,3 +24,15 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 import 'cypress-file-upload'
+
+Cypress.Commands.add('form_request', (method, url, formData, done) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open(method, url);
+    xhr.onload = function () {
+        done(xhr);
+    };
+    xhr.onerror = function () {
+        done(xhr);
+    };
+    xhr.send(formData);
+})

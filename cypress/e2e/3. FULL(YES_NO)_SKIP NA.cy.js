@@ -1,22 +1,23 @@
-import {QUESTION_CV, QUESTION_CDV, QUESTION_SV} from "../QUESTION/QUESTION_NULL/QUESTION(NULL).js";
+import {R_QUESTION_CV, R_QUESTION_CDV, R_QUESTION_SV} from "../QUESTION/QUESTION_REQUIRED/R_QUESTION";
+
 //INPUT HERE
-const session_key = "TVC-KK42MFTI4J";
-const Vehicle_Type = "CV";
-const TestCase = "RANDOM_CHECK"; //(MODIFIED IN QUESTION/MANUAL CHOOSE OPTION/QUESTION_MANUAL)
-const AddImg = false;
+const session_key = "TVC-D4FQS1KAIW";
+const Vehicle_Type = "CV"; // CV, SV, CDV
+const TestCase = "SKIP NA_FYES"; //SKIP NA_FYES || SKIP NA_FNO
+const AddImg = true; // True: upload all img, false: not upload
 const Env = "PROD"; // (PROD || DEV)
 
 // ------------------DONT MODIFIED BELOW-------------------------
 
-const nthChild = TestCase == "FUll_YES" ? 1 : TestCase == "FULL_NO" ? 2 : 3;
-const QUESTION =
-    Vehicle_Type == "CV"
-      ? QUESTION_CV
-      : Vehicle_Type == "CDV"
-      ? QUESTION_CDV
-      : QUESTION_SV;
-
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
+  const nthChild = TestCase == "SKIP NA_FYES" ? 1 : 2;
+  const QUESTION =
+    Vehicle_Type == "CV"
+      ? R_QUESTION_CV
+      : Vehicle_Type == "CDV"
+      ? R_QUESTION_CDV
+      : R_QUESTION_SV;
+
   beforeEach(() => {
     cy.clearCookies();
     cy.visit(
@@ -44,27 +45,22 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
       .should("have.css", "background-color", "rgb(39, 208, 137)");
   });
 
-
-  //Choose Random
-  it(`choose Option ${TestCase}`, () => {    
+  //CHOOSE OPTION
+  it(`choose Option ${TestCase} + UPLOAD_IMG: ${AddImg}`, () => {
     for (let Title in QUESTION) {
       console.log(QUESTION[Title]);
       for (let Option in QUESTION[Title]) {
-        const RandomQuestion = Math.floor(Math.random() * 2) + 1
         cy.get(`#${Title}_${Option}`).then((Qusestion) => {
-          cy.get(
-            `#${Title}_${Option}>:nth-child(${RandomQuestion})`
-          ).click();
+          console.log(Qusestion.children());
+          cy.get(`#${Title}_${Option}>:nth-child(${nthChild})`).click();
         });
       }
     }
 
-    //BOX UPLOAD IMG
+    //UPLOAD FULL HÌNH
     cy.get(".ant-upload-select > .ant-upload > input[type=file]").as(
       "UPLOADIMG"
     );
-
-    //UPLOAD FULL HÌNH
     AddImg &&
       cy.get("@UPLOADIMG").each(($UPlOAD_BTN) => {
         cy.wrap($UPlOAD_BTN).selectFile("cypress/fixtures/test-img.jpg", {
@@ -73,9 +69,10 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
       });
   });
 
+  // click Submit
   it.skip(`Submit Form`, () => {
     cy.get(".ant-form-item-control-input-content > .ant-btn")
       .as("SUBMIT_BUTTON")
-      .click(); // click Submit
+      .click();
   });
 });

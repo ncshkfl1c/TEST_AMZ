@@ -1,9 +1,9 @@
 import QUESTION_MANUAL from "../QUESTION/MANUAL CHOOSE OPTION/QUESTION_MANUAL";
 
 //INPUT HERE
-const session_key = "TVC-KK42MFTI4J";
+const session_key = "TVC-B5NONUMDJW";
 const Vehicle_Type = "CV";
-const TestCase = "MANUAL_CHECK"; //(MODIFIED IN QUESTION/MANUAL CHOOSE OPTION/QUESTION_MANUAL)
+const TestCase = "REALOAD_CHECK"; //(MODIFIED IN QUESTION/MANUAL CHOOSE OPTION/QUESTION_MANUAL)
 const AddImg = false;
 const Env = "PROD"; // (PROD || DEV)
 
@@ -30,41 +30,27 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
     cy.url().should("include", `/${session_key}/result/forms`);
   });
 
-  it(`Choose Vehicle Type ${Vehicle_Type}`, () => {
-    cy.get(
-      `#VEHICLE_TYPE > :nth-child(${
-        Vehicle_Type == "CV" ? 1 : Vehicle_Type == "CDV" ? 2 : 3
-      })`
-    )
-      .click()
-      .should("have.css", "background-color", "rgb(39, 208, 137)");
-  });
-
-  it(`choose Option ${TestCase}`, () => {
-    //CHOOSE FULL
+  it(`Check Case ${TestCase}`, () => {
+    //Check Css
     for (let Title in QUESTION) {
       console.log(QUESTION[Title]);
       for (let Option in QUESTION[Title]) {
-        cy.get(`#${Title}_${Option}`).then((Qusestion) => {
-          cy.get(
-            `#${Title}_${Option}>:nth-child(${QUESTION[Title][Option]})`
-          ).click();
-        });
+        let answer =QUESTION[Title][Option];
+        cy.get(
+          `#${Title}_${Option}>:nth-child(${answer})`
+        ).should("have.class", "ant-radio-button-wrapper-checked").as(` ${answer == 1 ? "@Yes" : answer == 2 ? "@No" : "@NA"} `);
       }
     }
 
     //BOX UPLOAD IMG
-    cy.get(".ant-upload-select > .ant-upload > input[type=file]").as(
+    cy.get(".ant-upload-span").as(
       "UPLOADIMG"
     );
 
-    //UPLOAD FULL HÌNH
-    AddImg &&
-      cy.get("@UPLOADIMG").each(($UPlOAD_BTN) => {
-        cy.wrap($UPlOAD_BTN).selectFile("cypress/fixtures/test-img.jpg", {
-          force: true,
-        });
-      });
+    //CHECK HÌNH có tồn tại ko
+    cy.get("@UPLOADIMG").each(($UPlOAD_BTN) => {
+      cy.wrap($UPlOAD_BTN).should("be.visible");
+    });
   });
 
   it.skip(`Submit Form`, () => {

@@ -1,27 +1,12 @@
-import {CDV_NA_ACTION, CV_NA_ACTION, SV_NA_ACTION} from "../QUESTION/QUESTION WITH NA_CTION/NA_ACTION.js";
-import {R_QUESTION_CV, R_QUESTION_CDV, R_QUESTION_SV} from "../QUESTION/QUESTION_REQUIRED/R_QUESTION";
-
+import {CF_R_QUESTION, CR_NA_ACTION} from "../QUESTION/CUSTOM_FORM/CUSTOM_FORM"
 //INPUT HERE
-const session_key = "TVC-6421SVAGGF";
+const session_key = "TVC-Z6XRMH9JFK";
 const Vehicle_Type = "CV"; // CV, SV, CDV
 const TestCase = "Validate";
 const Env = "PROD"; // (PROD || DEV)
 
 // ------------------DONT MODIFIED BELOW-------------------------
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
-  var NA_QUESTION =
-  Vehicle_Type == "CV"
-    ? CV_NA_ACTION
-    : Vehicle_Type == "CDV"
-    ? CDV_NA_ACTION
-    : SV_NA_ACTION;
-
-var R_QUESTION =
-  Vehicle_Type == "CV"
-    ? R_QUESTION_CV
-    : Vehicle_Type == "CDV"
-    ? R_QUESTION_CDV
-    : R_QUESTION_SV;
 
   beforeEach(() => {
     cy.clearCookies();
@@ -50,7 +35,7 @@ var R_QUESTION =
       .should("have.css", "background-color", "rgb(39, 208, 137)");
   });
 
-  it(`Submit Before choose Option - Validate Question CSS`, () => {
+  it(`Check Validate Question CSS`, () => {
     cy.get(".ant-form-item-control-input-content > .ant-btn")
       .as("SUBMIT_BUTTON")
       .click(); // click Submit to show validate and noti
@@ -58,30 +43,24 @@ var R_QUESTION =
     cy.get(".ant-notification-notice")
       .should("be.visible")
       .as("HAVE_NOTIFICATION"); //CHECK NOTIFICATION
-    cy.log(
-      `${
-        Vehicle_Type == "CV"
-          ? "QUESTION_CV"
-          : Vehicle_Type == "CDV"
-          ? "QUESTION_CDV"
-          : "QUESTION_SV"
-      }`
-    ); //SHOW QUESTION
-
-    for (let Title in R_QUESTION) {
-      for (let Option in R_QUESTION[Title]) {
-        cy.get(`#${Title}_${Option} > label`)
-          .should("have.css", "border-color", "rgb(255, 77, 79)")
-          .as("HAVE_RED_BORDER");
-      }
-    } //CHECK VALIDATION CSS WITH R QUESTION
-
-    for (let Title in NA_QUESTION) {
-      for (let Option in NA_QUESTION[Title]) {
+    
+    for (let Title in CR_NA_ACTION) {
+      for (let Option in CR_NA_ACTION[Title]) {
         cy.get(`#${Title}_${Option} > label`)
           .should("have.css", "border-color", "rgba(0, 0, 0, 0)")
           .as("NA ACTION NOT VALIDATE");
       }
-    } //NA QUESTION
+    } //CSS VALIDATE NA QUESTION
+
+    for (let Title in CF_R_QUESTION) {
+      for (let Option in CF_R_QUESTION[Title]) {
+        cy.get(`#${Title}_${Option} > label`)
+          .should("have.css", "border-color", "rgb(255, 77, 79)")
+          .as("HAVE_VALIDATE");
+      }
+    } //CHECK VALIDATION CSS WITH R QUESTION
+
+
+
   });
 });

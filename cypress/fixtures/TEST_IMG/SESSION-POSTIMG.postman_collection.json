@@ -1,0 +1,488 @@
+{
+	"info": {
+		"_postman_id": "6cfbb83c-5ac0-46fb-b154-5162b216b06f",
+		"name": "SESSION-POSTIMG",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19100311"
+	},
+	"item": [
+		{
+			"name": "LOCATION",
+			"item": [
+				{
+					"name": "GET IP",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const ip = pm.response.text().replace(/[\\r\\n]/gm, '')\r",
+									"\r",
+									"pm.environment.set(\"IP\", ip)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://ipv4.icanhazip.com/",
+							"protocol": "https",
+							"host": [
+								"ipv4",
+								"icanhazip",
+								"com"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "IP LOCATION",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"latitude\", pm.response.json().latitude)\r",
+									"pm.environment.set(\"longitude\", pm.response.json().longitude)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://location.paveapi.com/json/:ip",
+							"protocol": "https",
+							"host": [
+								"location",
+								"paveapi",
+								"com"
+							],
+							"path": [
+								"json",
+								":ip"
+							],
+							"variable": [
+								{
+									"key": "ip",
+									"value": "{{IP}}",
+									"description": "{{IP}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GMAP_LOCATION",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let data1 = pm.response.json()\r",
+									"let address = data1.results[0].formatted_address\r",
+									"let street_num = data1.results[0].address_components[0].long_name\r",
+									"let street = data1.results[0].address_components[1].long_name\r",
+									"let state = data1.results[0].address_components[3].long_name\r",
+									"let state_code = data1.results[0].address_components[3].short_name\r",
+									"let city = data1.results[0].address_components[2].long_name\r",
+									"let country = data1.results[0].address_components[4].long_name\r",
+									"let country_code = data1.results[0].address_components[4].short_name\r",
+									"\r",
+									"console.log(address)\r",
+									"pm.environment.set(\"address\", address)\r",
+									"pm.environment.set(\"street_num\", street_num)\r",
+									"pm.environment.set(\"street\", street)\r",
+									"pm.environment.set(\"state\", state)\r",
+									"pm.environment.set(\"state_code\", state_code)\r",
+									"pm.environment.set(\"city\", city)\r",
+									"pm.environment.set(\"country\", country)\r",
+									"pm.environment.set(\"country_code\", country_code)\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://maps.googleapis.com/maps/api/geocode/json?latlng={{latitude}},{{longitude}}&key=AIzaSyBR6tloMe-PhBVCyE2UigAJquGb6N5e4oA",
+							"protocol": "https",
+							"host": [
+								"maps",
+								"googleapis",
+								"com"
+							],
+							"path": [
+								"maps",
+								"api",
+								"geocode",
+								"json"
+							],
+							"query": [
+								{
+									"key": "latlng",
+									"value": "{{latitude}},{{longitude}}"
+								},
+								{
+									"key": "key",
+									"value": "AIzaSyBR6tloMe-PhBVCyE2UigAJquGb6N5e4oA"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOCATION",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let session_Key = pm.response.json().session_key\r",
+									"pm.environment.set(\"SESSION_KEY\", session_Key)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "session_key",
+									"value": "TVC-7JAW9SKHA0",
+									"type": "text"
+								},
+								{
+									"key": "country_code",
+									"value": "{{country_code}}",
+									"type": "text"
+								},
+								{
+									"key": "post_code",
+									"value": "3000",
+									"type": "text"
+								},
+								{
+									"key": "address",
+									"value": "{{address}}",
+									"type": "text"
+								},
+								{
+									"key": "latitude",
+									"value": "{{latitude}}",
+									"type": "text"
+								},
+								{
+									"key": "longitude",
+									"value": "{{longitude}}",
+									"type": "text"
+								},
+								{
+									"key": "state_code",
+									"value": "{{state_code}}",
+									"type": "text"
+								},
+								{
+									"key": "state",
+									"value": "{{state}}",
+									"type": "text"
+								},
+								{
+									"key": "street",
+									"value": "{{street}}",
+									"type": "text"
+								},
+								{
+									"key": "street_num",
+									"value": "{{street_num}}",
+									"type": "text"
+								},
+								{
+									"key": "location_from",
+									"value": "ipAddress",
+									"type": "text"
+								},
+								{
+									"key": "ip",
+									"value": "{{IP}}",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "{{country}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{SESSION_API}}/api/location",
+							"host": [
+								"{{SESSION_API}}"
+							],
+							"path": [
+								"api",
+								"location"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "START SESSION",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let session_Key = pm.response.json().session_key\r",
+							"pm.environment.set(\"SESSION_KEY\", session_Key)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "session_key",
+							"value": "TVC-AJOEHQR5VW",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{SESSION_API}}/api/start",
+					"host": [
+						"{{SESSION_API}}"
+					],
+					"path": [
+						"api",
+						"start"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST 1 IMG",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Upload success\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Upload succeeded.\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDA3MDU2NzY1NjJkNjBjZjBkZmY3OWEiLCJpYXQiOjE1NjA3NDEyMjR9.WXW3fvSFJrTDI-jh6dimvl6yo8oGBMmHOAmgjrmniQw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "/D:/PAVECAPTURE/REJECT_IMG.jpg"
+						},
+						{
+							"key": "photo_code",
+							"value": "04",
+							"type": "text"
+						},
+						{
+							"key": "session_key",
+							"value": "EH7-CA3GAUHYGP",
+							"description": "TOA-VAUB5YQSPX",
+							"type": "text"
+						},
+						{
+							"key": "photo_code",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{SESSION_API}}/api/photos",
+					"host": [
+						"{{SESSION_API}}"
+					],
+					"path": [
+						"api",
+						"photos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST MULTI IMG",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let code = pm.environment.get(\"photo_codes\")\r",
+							"\r",
+							"if (!code || code.length == 0) {\r",
+							"    code = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]\r",
+							"}\r",
+							"\r",
+							"let currentImgCode = code.shift()\r",
+							"\r",
+							"// let currentImg = `/D:/PAVECAPTURE/IUK/${currentImgCode}.jpg`\r",
+							"let currentImg = `/D:/PAVECAPTURE/TEST_IMG/${currentImgCode}.jpg`\r",
+							"// let currentImg = `/D:/PAVECAPTURE/GMF/${currentImgCode}.jpg`\r",
+							"// let currentImg = `D:/PAVECAPTURE/BLACK_IMG/1.jpg`\r",
+							"\r",
+							"console.log(currentImgCode)\r",
+							"pm.environment.set(\"photo_code\", currentImgCode)\r",
+							"pm.environment.set(\"URL_FILE\", currentImg)\r",
+							"pm.environment.set(\"photo_codes\", code)"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const code = pm.environment.get(\"photo_codes\");\r",
+							"\r",
+							"if (code && code.length > 0) {\r",
+							"    postman.setNextRequest(\"POST MULTI IMG\");\r",
+							"} else {\r",
+							"    postman.clearEnvironmentVariable(\"currentImgCode\")\r",
+							"    postman.clearEnvironmentVariable(\"code\")\r",
+							"    postman.clearEnvironmentVariable(\"photo_code\")\r",
+							"    postman.clearEnvironmentVariable(\"photo_codes\")\r",
+							"    postman.setNextRequest(null);\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Upload success\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Upload succeeded.\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZDA3MDU2NzY1NjJkNjBjZjBkZmY3OWEiLCJpYXQiOjE1NjA3NDEyMjR9.WXW3fvSFJrTDI-jh6dimvl6yo8oGBMmHOAmgjrmniQw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "image",
+							"type": "file",
+							"src": "{{URL_FILE}}"
+						},
+						{
+							"key": "photo_code",
+							"value": "{{photo_code}}",
+							"type": "text"
+						},
+						{
+							"key": "session_key",
+							"value": "{{SESSION_KEY}}",
+							"description": "TOA-VAUB5YQSPX",
+							"type": "text"
+						},
+						{
+							"key": "session_key",
+							"value": "TVC-AJOEHQR5VW",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{SESSION_API}}/api/photos",
+					"host": [
+						"{{SESSION_API}}"
+					],
+					"path": [
+						"api",
+						"photos"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
