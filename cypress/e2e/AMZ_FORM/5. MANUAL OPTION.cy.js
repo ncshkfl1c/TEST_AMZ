@@ -1,11 +1,9 @@
-import QUESTION_MANUAL from "../QUESTION/MANUAL CHOOSE OPTION/QUESTION_MANUAL";
+import QUESTION_MANUAL from "../../QUESTION/MANUAL CHOOSE OPTION/QUESTION_MANUAL";
+import { session_key, Env, Vehicle_Type } from "../INPUT";
 
 //INPUT HERE
-const session_key = "TVC-B5NONUMDJW";
-const Vehicle_Type = "CV";
 const TestCase = "MANUAL_CHECK"; //(MODIFIED IN "QUESTION/MANUAL CHOOSE OPTION/QUESTION_MANUAL")
-const AddImg = false;
-const Env = "PROD"; // (PROD || DEV)
+const AddImg = true; // True: upload all img, false: not upload
 
 // ------------------DONT MODIFIED BELOW-------------------------
 
@@ -15,27 +13,16 @@ var QUESTION = QUESTION_MANUAL;
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
   beforeEach(() => {
     cy.clearCookies();
-    cy.visit(
-      `https://capture${
-        Env == "PROD" ? "" : "-dev"
-      }.paveapi.com/${session_key}/result/forms`
-    ).as("Link_Form");
+    cy.Visit_Form(session_key, Env).as("Link_Form");
+    cy.wait(2000)
   });
 
-  afterEach(() => {
-    cy.wait(5000);
-  });
-
-  it(`Validate Link`, () => {
+  it.skip(`Validate Link`, () => {
     cy.url().should("include", `/${session_key}/result/forms`);
   });
 
   it(`Choose Vehicle Type ${Vehicle_Type}`, () => {
-    cy.get(
-      `#VEHICLE_TYPE > :nth-child(${
-        Vehicle_Type == "CV" ? 1 : Vehicle_Type == "CDV" ? 2 : 3
-      })`
-    )
+    cy.chooseVehicleType(Vehicle_Type)
       .click()
       .should("have.css", "background-color", "rgb(39, 208, 137)");
   });

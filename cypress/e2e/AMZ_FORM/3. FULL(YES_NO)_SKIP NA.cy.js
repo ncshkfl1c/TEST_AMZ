@@ -1,11 +1,13 @@
-import {R_QUESTION_CV, R_QUESTION_CDV, R_QUESTION_SV} from "../../QUESTION/QUESTION_REQUIRED/R_QUESTION";
+import {
+  R_QUESTION_CV,
+  R_QUESTION_CDV,
+  R_QUESTION_SV,
+} from "../../QUESTION/QUESTION_REQUIRED/R_QUESTION";
+import { session_key, Env, Vehicle_Type } from "../INPUT";
 
 //INPUT HERE
-const session_key = "TVC-D4FQS1KAIW";
-const Vehicle_Type = "CV"; // CV, SV, CDV
 const TestCase = "SKIP NA_FYES"; //SKIP NA_FYES || SKIP NA_FNO
 const AddImg = true; // True: upload all img, false: not upload
-const Env = "PROD"; // (PROD || DEV)
 
 // ------------------DONT MODIFIED BELOW-------------------------
 
@@ -20,11 +22,7 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
 
   beforeEach(() => {
     cy.clearCookies();
-    cy.visit(
-      `https://capture${
-        Env == "PROD" ? "" : "-dev"
-      }.paveapi.com/${session_key}/result/forms`
-    ).as("Link_Form");
+    cy.Visit_Form(session_key, Env).as("Link_Form");
   });
 
   afterEach(() => {
@@ -36,11 +34,7 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
   });
 
   it(`Choose Vehicle Type ${Vehicle_Type}`, () => {
-    cy.get(
-      `#VEHICLE_TYPE > :nth-child(${
-        Vehicle_Type == "CV" ? 1 : Vehicle_Type == "CDV" ? 2 : 3
-      })`
-    )
+    cy.chooseVehicleType(Vehicle_Type)
       .click()
       .should("have.css", "background-color", "rgb(39, 208, 137)");
   });

@@ -1,11 +1,17 @@
-import {CDV_NA_ACTION, CV_NA_ACTION, SV_NA_ACTION} from "../../QUESTION/QUESTION WITH NA_CTION/NA_ACTION.js";
-import {R_QUESTION_CV, R_QUESTION_CDV, R_QUESTION_SV} from "../../QUESTION/QUESTION_REQUIRED/R_QUESTION";
+import {
+  CDV_NA_ACTION,
+  CV_NA_ACTION,
+  SV_NA_ACTION,
+} from "../../QUESTION/QUESTION WITH NA_CTION/NA_ACTION.js";
+import {
+  R_QUESTION_CV,
+  R_QUESTION_CDV,
+  R_QUESTION_SV,
+} from "../../QUESTION/QUESTION_REQUIRED/R_QUESTION";
+import {session_key, Env, Vehicle_Type} from "../INPUT"
 
 //INPUT HERE
-const session_key = "TVC-Z6XRMH9JFK";
-const Vehicle_Type = "CDV"; // CV, SV, CDV
 const TestCase = "Validate";
-const Env = "PROD"; // (PROD || DEV)
 
 // ------------------DONT MODIFIED BELOW-------------------------
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
@@ -25,15 +31,8 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
 
   beforeEach(() => {
     cy.clearCookies();
-    cy.visit(
-      `https://capture${
-        Env == "PROD" ? "" : "-dev"
-      }.paveapi.com/${session_key}/result/forms`
-    ).as("Link_Form");
-  });
-
-  afterEach(() => {
-    cy.wait(2000);
+    cy.Visit_Form(session_key, Env).as("Link_Form");
+    cy.wait(2000)
   });
 
   it(`Validate Link`, () => {
@@ -41,11 +40,7 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
   });
 
   it(`Choose Vehicle Type ${Vehicle_Type}`, () => {
-    cy.get(
-      `#VEHICLE_TYPE > :nth-child(${
-        Vehicle_Type == "CV" ? 1 : Vehicle_Type == "CDV" ? 2 : 3
-      })`
-    )
+    cy.chooseVehicleType(Vehicle_Type)
       .click()
       .should("have.css", "background-color", "rgb(39, 208, 137)");
   });
@@ -68,23 +63,18 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
       }`
     ); //SHOW QUESTION
 
-    for (let Title in NA_QUESTION) {
-      for (let Option in NA_QUESTION[Title]) {
-        cy.get(`#${Title}_${Option} > label`)
-          .should("have.css", "border-color", "rgba(0, 0, 0, 0)")
-          .as("NA ACTION NOT VALIDATE");
-      }
-    } //CSS VALIDATE NA QUESTION
+    cy.CheckValidateCss(
+      NA_QUESTION,
+      ["have.css", "border-color", "rgba(0, 0, 0, 0)"],
+      "NA ACTION NOT VALIDATE"
+    );
+    //CSS VALIDATE NA QUESTION
 
-    for (let Title in R_QUESTION) {
-      for (let Option in R_QUESTION[Title]) {
-        cy.get(`#${Title}_${Option} > label`)
-          .should("have.css", "border-color", "rgb(255, 77, 79)")
-          .as("HAVE_VALIDATE");
-      }
-    } //CHECK VALIDATION CSS WITH R QUESTION
-
-
-
+    cy.CheckValidateCss(
+      R_QUESTION,
+      ["have.css", "border-color", "rgb(255, 77, 79)"],
+      "HAVE_VALIDATE"
+    );
+    //CHECK VALIDATION CSS WITH R QUESTION
   });
 });

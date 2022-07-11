@@ -3,13 +3,10 @@ import {
   QUESTION_CDV,
   QUESTION_SV,
 } from "../../QUESTION/QUESTION_NULL/QUESTION(NULL)";
-
+import { session_key, Env, Vehicle_Type } from "../INPUT";
 //INPUT HERE
-const session_key = "TVC-PTUWOXPXJS";
-const Vehicle_Type = "CV"; // CV, SV, CDV
-const TestCase = "FULL_NO"; //("FULL_YES" || "FULL_YES_NA" || "FULL_NO" || "FULL_NO_NA")
-const AddImg = true; // True: upload all img, false: not upload
-const Env = "PROD"; // (PROD || DEV)
+const TestCase = "FULL_YES_NA"; //("FULL_YES" || "FULL_YES_NA" || "FULL_NO" || "FULL_NO_NA")
+const AddImg = false; // True: upload all img, false: not upload
 
 // ------------------DONT MODIFIED BELOW-------------------------
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
@@ -22,15 +19,11 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
       : QUESTION_SV;
   beforeEach(() => {
     cy.clearCookies();
-    cy.visit(
-      `https://capture${
-        Env == "PROD" ? "" : "-dev"
-      }.paveapi.com/${session_key}/result/forms`
-    ).as("Link_Form");
+    cy.Visit_Form(session_key, Env).as("Link_Form");
   });
 
   afterEach(() => {
-    cy.wait(5000);
+    cy.wait(2000);
   });
 
   it(`Validate Link`, () => {
@@ -38,11 +31,7 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
   });
 
   it(`Choose Vehicle Type ${Vehicle_Type}`, () => {
-    cy.get(
-      `#VEHICLE_TYPE > :nth-child(${
-        Vehicle_Type == "CV" ? 1 : Vehicle_Type == "CDV" ? 2 : 3
-      })`
-    )
+    cy.chooseVehicleType(Vehicle_Type)
       .click()
       .should("have.css", "background-color", "rgb(39, 208, 137)");
   });

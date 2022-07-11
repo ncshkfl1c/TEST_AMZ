@@ -1,12 +1,8 @@
 import QUESTION_MANUAL from "../../QUESTION/MANUAL CHOOSE OPTION/QUESTION_MANUAL";
+import { session_key, Env, Vehicle_Type } from "../INPUT";
 
 //INPUT HERE
-const session_key = "TVC-B5NONUMDJW";
-const Vehicle_Type = "CV";
 const TestCase = "REALOAD_CHECK";
-const AddImg = false;
-const Env = "PROD"; // (PROD || DEV)
-
 // ------------------DONT MODIFIED BELOW-------------------------
 
 var QUESTION = QUESTION_MANUAL;
@@ -14,11 +10,7 @@ var QUESTION = QUESTION_MANUAL;
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
   beforeEach(() => {
     cy.clearCookies();
-    cy.visit(
-      `https://capture${
-        Env == "PROD" ? "" : "-dev"
-      }.paveapi.com/${session_key}/result/forms`
-    ).as("Link_Form");
+    cy.Visit_Form(session_key, Env).as("Link_Form");
   });
 
   afterEach(() => {
@@ -34,17 +26,15 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
     for (let Title in QUESTION) {
       console.log(QUESTION[Title]);
       for (let Option in QUESTION[Title]) {
-        let answer =QUESTION[Title][Option];
-        cy.get(
-          `#${Title}_${Option}>:nth-child(${answer})`
-        ).should("have.class", "ant-radio-button-wrapper-checked").as(` ${answer == 1 ? "@Yes" : answer == 2 ? "@No" : "@NA"} `);
+        let answer = QUESTION[Title][Option];
+        cy.get(`#${Title}_${Option}>:nth-child(${answer})`)
+          .should("have.class", "ant-radio-button-wrapper-checked")
+          .as(` ${answer == 1 ? "@Yes" : answer == 2 ? "@No" : "@NA"} `);
       }
     }
 
     //BOX UPLOAD IMG
-    cy.get(".ant-upload-span").as(
-      "UPLOADIMG"
-    );
+    cy.get(".ant-upload-span").as("UPLOADIMG");
 
     //CHECK HÌNH có tồn tại ko
     cy.get("@UPLOADIMG").each(($UPlOAD_BTN) => {

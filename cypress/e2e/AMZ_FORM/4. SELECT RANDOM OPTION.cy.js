@@ -1,21 +1,27 @@
-import {QUESTION_CV, QUESTION_CDV, QUESTION_SV} from "../../QUESTION/QUESTION_NULL/QUESTION(NULL).js";
-import {R_QUESTION_CV, R_QUESTION_CDV, R_QUESTION_SV} from "../../QUESTION/QUESTION_REQUIRED/R_QUESTION";
+import {
+  QUESTION_CV,
+  QUESTION_CDV,
+  QUESTION_SV,
+} from "../../QUESTION/QUESTION_NULL/QUESTION(NULL).js";
+import {
+  R_QUESTION_CV,
+  R_QUESTION_CDV,
+  R_QUESTION_SV,
+} from "../../QUESTION/QUESTION_REQUIRED/R_QUESTION";
+import { session_key, Env, Vehicle_Type } from "../INPUT";
 
 //INPUT HERE
-const session_key = "TVC-2BLNHEXVPZ";
-const Vehicle_Type = "CV";
 const TestCase = "RANDOM_OPTION"; //RANDOM_OPTION || RANDOM_OPTION_SKIPNA
-const AddImg = true; // (true || false)
-const Env = "PROD"; // (PROD || DEV)
+const AddImg = false; // (true || false)
 
 // ------------------DONT MODIFIED BELOW-------------------------
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
   const R_QUESTION =
-  Vehicle_Type == "CV"
-    ? R_QUESTION_CV
-    : Vehicle_Type == "CDV"
-    ? R_QUESTION_CDV
-    : R_QUESTION_SV;
+    Vehicle_Type == "CV"
+      ? R_QUESTION_CV
+      : Vehicle_Type == "CDV"
+      ? R_QUESTION_CDV
+      : R_QUESTION_SV;
 
   const F_QUESTION =
     Vehicle_Type == "CV"
@@ -25,11 +31,7 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
       : QUESTION_SV;
   beforeEach(() => {
     cy.clearCookies();
-    cy.visit(
-      `https://capture${
-        Env == "PROD" ? "" : "-dev"
-      }.paveapi.com/${session_key}/result/forms`
-    ).as("Link_Form");
+    cy.Visit_Form(session_key, Env).as("Link_Form");
   });
 
   afterEach(() => {
@@ -40,19 +42,14 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
     cy.url().should("include", `/${session_key}/result/forms`);
   });
 
-  it.skip(`Choose Vehicle Type ${Vehicle_Type}`, () => {
-    cy.get(
-      `#VEHICLE_TYPE > :nth-child(${
-        Vehicle_Type == "CV" ? 1 : Vehicle_Type == "CDV" ? 2 : 3
-      })`
-    )
+  it(`Choose Vehicle Type ${Vehicle_Type}`, () => {
+    cy.chooseVehicleType(Vehicle_Type)
       .click()
       .should("have.css", "background-color", "rgb(39, 208, 137)");
   });
 
-
   //Choose Random
-  it(`choose Option ${TestCase}`, () => {    
+  it(`choose Option ${TestCase}`, () => {
     let QUESTION = TestCase == "RANDOM_OPTION" ? F_QUESTION : R_QUESTION;
     for (let Title in QUESTION) {
       console.log(QUESTION[Title]);
@@ -60,8 +57,8 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
         cy.get(`#${Title}_${Option}`).then((Qusestion) => {
           console.log(Qusestion.children());
 
-          const RandomQuestion = Math.floor(Math.random() * 3) + 1
-          
+          const RandomQuestion = Math.floor(Math.random() * 3) + 1;
+
           if (Qusestion.children().length == 3) {
             cy.get(`#${Title}_${Option}>:nth-child(${RandomQuestion})`)
               .as("QuestionOPTION")
@@ -72,14 +69,15 @@ describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
                 cy.get(`#${Title}_${Option}>:nth-child(1)`).click();
                 break;
               default:
-                cy.get(`#${Title}_${Option}>:nth-child(${RandomQuestion})`).click();
+                cy.get(
+                  `#${Title}_${Option}>:nth-child(${RandomQuestion})`
+                ).click();
                 break;
             }
           }
         });
       }
     }
-
 
     //BOX UPLOAD IMG
     cy.get(".ant-upload-select > .ant-upload > input[type=file]").as(
