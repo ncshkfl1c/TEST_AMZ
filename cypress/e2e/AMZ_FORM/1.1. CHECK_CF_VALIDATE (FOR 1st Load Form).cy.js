@@ -2,11 +2,11 @@ import {
   CF_R_QUESTION,
   CF_NA_ACTION,
 } from "../../QUESTION/CUSTOM_FORM/CUSTOM_FORM";
+
+import {session_key, Env, Vehicle_Type} from "../INPUT"
+
 //INPUT HERE
-const session_key = "TVC-Z6XRMH9JFK";
-const Vehicle_Type = "CV"; // CV, SV, CDV
 const TestCase = "Validate";
-const Env = "PROD"; // (PROD || DEV)
 
 // ------------------DONT MODIFIED BELOW-------------------------
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {

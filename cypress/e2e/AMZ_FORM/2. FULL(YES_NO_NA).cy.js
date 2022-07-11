@@ -5,6 +5,7 @@ import {
 } from "../../QUESTION/QUESTION_NULL/QUESTION(NULL)";
 import { session_key, Env, Vehicle_Type } from "../INPUT";
 //INPUT HERE
+
 const TestCase = "FULL_YES_NA"; //("FULL_YES" || "FULL_YES_NA" || "FULL_NO" || "FULL_NO_NA")
 const AddImg = false; // True: upload all img, false: not upload
 
