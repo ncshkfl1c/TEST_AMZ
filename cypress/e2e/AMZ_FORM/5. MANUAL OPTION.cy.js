@@ -6,8 +6,6 @@ const TestCase = "MANUAL_CHECK"; //(MODIFIED IN "QUESTION/MANUAL CHOOSE OPTION/Q
 const AddImg = true; // True: upload all img, false: not upload
 
 // ------------------DONT MODIFIED BELOW-------------------------
-
-const nthChild = TestCase == "FUll_YES" ? 1 : TestCase == "FULL_NO" ? 2 : 3;
 var QUESTION = QUESTION_MANUAL;
 
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {

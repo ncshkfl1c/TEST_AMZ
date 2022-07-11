@@ -1,4 +1,4 @@
-import {session_key, Env, Vehicle_Type} from "../INPUT"
+import {session_key, Env} from "../INPUT"
 
 
 //MODIFIED HERE
