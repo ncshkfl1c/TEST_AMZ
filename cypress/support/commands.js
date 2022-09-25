@@ -66,7 +66,7 @@ Cypress.Commands.add("Post_Img", (session_key, Flow_capture, Env) => {
 Cypress.Commands.add("Visit_Form", (session_key, Env) => {
   cy.visit(
     `https://capture${
-      Env == "PROD" ? "" : "-dev"
+      Env == "PROD" ? "" : Env == "DEV" ? "-dev" : "-exp"
     }.paveapi.com/${session_key}/result/forms`
   );
 });

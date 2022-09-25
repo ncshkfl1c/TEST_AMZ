@@ -6,7 +6,7 @@ import {
 import { session_key, Env, Vehicle_Type } from "../INPUT";
 
 //INPUT HERE
-const TestCase = "SKIP NA_FYES"; //SKIP NA_FYES || SKIP NA_FNO
+const TestCase = "SKIP NA_FNO"; //SKIP NA_FYES || SKIP NA_FNO
 const AddImg = true; // True: upload all img, false: not upload
 
 // ------------------DONT MODIFIED BELOW-------------------------

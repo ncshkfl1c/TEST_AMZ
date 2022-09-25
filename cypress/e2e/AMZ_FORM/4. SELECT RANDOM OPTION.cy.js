@@ -12,7 +12,7 @@ import { session_key, Env, Vehicle_Type } from "../INPUT";
 
 //INPUT HERE
 const TestCase = "RANDOM_OPTION"; //RANDOM_OPTION || RANDOM_OPTION_SKIPNA
-const AddImg = false; // (true || false)
+const AddImg = true; // (true || false)
 
 // ------------------DONT MODIFIED BELOW-------------------------
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {

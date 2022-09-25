@@ -6,8 +6,8 @@ import {
 import { session_key, Env, Vehicle_Type } from "../INPUT";
 //INPUT HERE
 
-const TestCase = "FULL_YES_NA"; //("FULL_YES" || "FULL_YES_NA" || "FULL_NO" || "FULL_NO_NA")
-const AddImg = false; // True: upload all img, false: not upload
+const TestCase = "FULL_NO"; //("FULL_YES" || "FULL_YES_NA" || "FULL_NO" || "FULL_NO_NA")
+const AddImg = true; // True: upload all img, false: not upload
 
 // ------------------DONT MODIFIED BELOW-------------------------
 describe(`TEST_FORM WITH ${Vehicle_Type} + ${TestCase}`, () => {
